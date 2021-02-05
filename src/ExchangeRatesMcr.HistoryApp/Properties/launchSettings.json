@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ExchangeRatesMcr.HistoryApp": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

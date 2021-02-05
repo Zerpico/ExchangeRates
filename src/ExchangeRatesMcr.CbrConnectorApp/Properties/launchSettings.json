@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ExchangeRatesMcr.CbrConnectorApp": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

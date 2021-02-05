@@ -1,0 +1,65 @@
+version: '3.4'
+
+networks:
+  mcr: {}
+
+services:
+  mcr_schedulerapi:
+    image: ${DOCKER_REGISTRY-}schedulerapi:${TAG}
+    build:
+      context: .
+      dockerfile: src/ExchangeRatesMcr.SchedulerApi/Dockerfile
+    networks:
+      - mcr
+    ports:
+      - "7001:80"
+
+  mcr_reportapi:
+    image: ${DOCKER_REGISTRY-}reportapi:${TAG}
+    build:
+      context: .
+      dockerfile: src/ExchangeRatesMcr.ReportApi/Dockerfile
+    networks:
+      - mcr
+    ports:
+      - "7011:80"
+
+  mcr_historyapp:
+    image: ${DOCKER_REGISTRY-}historyapp:${TAG}
+    build:
+      context: .
+      dockerfile: src/ExchangeRatesMcr.HistoryApp/Dockerfile
+    networks:
+      - mcr
+    restart: on-failure
+
+  mcr_cbrconnectorapp:
+    image: ${DOCKER_REGISTRY-}cbrconnectorapp:${TAG}
+    build:
+      context: .
+      dockerfile: src/ExchangeRatesMcr.CbrConnectorApp/Dockerfile
+    networks:
+      - mcr
+    restart: on-failure
+
+  rabbitmq:
+    image: rabbitmq:management
+    networks:
+     - mcr
+    restart: on-failure
+
+  postgres:
+    container_name: postgres_container
+    image: postgres:latest 
+    networks:
+     - mcr
+    restart: on-failure
+
+  pgadmin4:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4:latest
+    networks:
+     - mcr
+    ports:
+     - 8080:80
+    restart: on-failure

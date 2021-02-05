@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  mcr_schedulerapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__Updater
+
+  mcr_reportapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__Updater
+
+  mcr_cbrconnectorapp:
+    environment:
+      - ConnectionStrings__Updater
+
+  mcr_historyapp:
+    environment:
+      - ConnectionStrings__Updater
+
+  postgres:
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      - POSTGRES_PORT
+
+  pgadmin4:
+    environment:
+      - PGADMIN_DEFAULT_EMAIL
+      - PGADMIN_DEFAULT_PASSWORD
