@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace ExchangeRatesMcr.SchedulerApi
 {
@@ -20,7 +21,17 @@ namespace ExchangeRatesMcr.SchedulerApi
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseContentRoot(Directory.GetCurrentDirectory())
+                        .ConfigureAppConfiguration((hostingContext, config) =>
+                        {
+                            var env = hostingContext.HostingEnvironment;
+                            config
+                                .SetBasePath(env.ContentRootPath)
+                                .AddJsonFile("appsettings.json", true, true)
+                                .AddEnvironmentVariables();
+                        });
+                    webBuilder.UseStartup<Startup>().UseDefaultServiceProvider(options =>
+                        options.ValidateScopes = false);
                 });
     }
 }

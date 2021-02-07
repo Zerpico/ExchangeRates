@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
@@ -20,7 +21,17 @@ namespace ExchangeRatesMcr.ReportApi
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseContentRoot(Directory.GetCurrentDirectory())
+                        .ConfigureAppConfiguration((hostingContext, config) =>
+                        {
+                            var env = hostingContext.HostingEnvironment;
+                            config
+                                .SetBasePath(env.ContentRootPath)
+                                .AddJsonFile("appsettings.json", true, true)
+                                .AddEnvironmentVariables();
+                        });
+                    webBuilder.UseStartup<Startup>().UseDefaultServiceProvider(options =>
+                        options.ValidateScopes = false);
                 });
     }
 }

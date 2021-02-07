@@ -43,20 +43,24 @@ services:
     restart: on-failure
 
   rabbitmq:
+    container_name: rabbitmq_mcr
     image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
     networks:
      - mcr
     restart: on-failure
 
   postgres:
-    container_name: postgres_container
+    container_name: postgres_mcr
     image: postgres:latest 
     networks:
      - mcr
     restart: on-failure
 
   pgadmin4:
-    container_name: pgadmin_container
+    container_name: pgadmin_mcr
     image: dpage/pgadmin4:latest
     networks:
      - mcr
